@@ -1,0 +1,124 @@
+h1, h2, h3, h4, h5, h6, p.description{ 
+  font-family: Lucida Grande, Lucida Sans Unicode, Verdana, Helvetica, Arial, sans-serif; 
+  }
+
+p{
+   color: #0F0F0F;
+   }
+
+h2{
+    font-size: 120%;
+    font-weight: bold;
+    color: darkblue;
+    }
+
+h3{
+    font-size: 110%;
+    font-weight: bold;
+    color: blue;
+    text-align:center;
+    }
+
+h4{
+    font-size: 100%;
+    font-weight: bold;
+    color: grey;
+    text-align:center;
+    }
+
+a{
+   color: red;
+   }
+
+body{
+      text-align: center;
+      background-color: #1F00FF;
+      font-family: Lucida Grande, Lucida Sans Unicode, Verdana, Helvetica, Arial, sans-serif;
+      font-size: 83%;
+      margin: 0em;
+      padding: 0em;
+      border-top: 1em solid #e2e6ec;
+      }
+
+div#sidebar{ 
+             font-size: 83%;
+             line-height: 140%;
+             color: #3f3f3f;
+             padding: 0em;
+             margin: 0em;
+             padding-top: 1.5em;
+             }
+div#footer{
+            font-size: 70%;
+            margin-top: 2em;
+            padding: 1em 35px;
+            color: #7f7f7f;
+            }
+
+#container{
+             width: 718px;
+             text-align: left;
+             margin: 0 auto;
+             }
+
+
+body div#container{
+  padding: 0em;
+  margin-top: 0em;
+  border-top: 1px solid #e2e6ec; /* a hack: without it Firefox adds top margin in layouts with sidebar */
+  }
+
+div#container div.wrapper{
+  padding: 0em;
+  margin: 0em;
+  }
+
+div#header{
+  padding: 0em 35px;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  padding-bottom: 1em; /* hack for IE6 */
+  margin: 0em;
+  margin-top: 2em;
+  background: #0F0F0F;
+  }
+div#header div.wrapper{
+  padding: 0em;
+  margin: 0em;
+  }
+
+
+
+body#twocolumn-left div#header, body#threecolumn div#header{
+  padding-left: 25px;
+  }
+
+h1#page-title {
+    font-size: 220%;
+    font-weight: normal;
+    color: #125efc;
+    letter-spacing: -1px;
+    display: block;
+    border: 0em;
+    padding: 0em;
+    margin: 0em;
+    line-height: 100%;
+  }
+div#g_description {
+    font-size: 140%;
+    font-weight: normal;
+    color: #12febc; 
+  }
+
+
+body#twocolumn-left div#sidebar{
+  padding-left: 15px;
+  width: 215px;
+  }
+
+body#twocolumn-left div#main-content{
+  padding: 0em 25px;
+  width: 420px;
+  margin-right: 8px;
+  display: inline;
+  }
