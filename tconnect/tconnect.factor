@@ -21,23 +21,41 @@ furnace.boilerplate
 furnace.redirection
 webapps.pastebin
 webapps.planet
-nwebapps.wiki
+webapps.wiki
 webapps.user-admin
-webapps.help ;
+webapps.help 
+tconnect.tutorials ;
 IN: tconnect
 
-! TUPLE: tutorials < dispatcher ;
+: test-db ( -- db ) "resource:work/tconnect/test.db" <sqlite-db> ;
 
-! TUPLE: tutorial id tutor time location ;
+: init-factor-db ( -- )
+    test-db [
+        init-furnace-tables
+        { tutorials } ensure-tables
+    ] with-db ;
 
-! GENERIC: tutorial-url ( tutorial -- url )
+TUPLE: tconnect-website < dispatcher ;    
+    
+: <tconnect-website> (  -- responder )
+    tconnect-website new-dispatcher
+        <tutorials> "tutorials" add-responder
+        URL" /tutorials" <redirect-responder> "" add-responder ;
+    
+: common-configuration ( -- )    
+    init-factor-db ;
 
-! M: tutorial feed-entry-url tutorial-url ;
+: init-testing (  --  )
+    common-configuration
+    <tconnect-website>
+    test-db <alloy>
+    main-responder set-global ;
 
-TUPLE: my-dispatcher < dispatcher ;
-
-my-dispatcher new-dispatcher
-  <page-action>
-    { my-dispatcher "main" } >>template
-  "foo" add-responder 
-  main-responder set-global
+: <tconnect-website-server> ( -- threaded-server )
+    <http-server>
+        8888 >>insecure ;
+    
+: start-testing-site (  --  )
+    init-testing
+    t development? set-global
+    <tconnect-website-server> start-server ;

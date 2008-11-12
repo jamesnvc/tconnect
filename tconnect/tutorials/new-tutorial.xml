@@ -1,0 +1,17 @@
+<?xml version='1.0' ?>
+
+<t:chloe xmlns:t="http://factorcode.org/chloe/1.0">
+
+	<t:title>New Tutorial</t:title>
+
+	<div class="tutorial-form">
+		<t:form t:action="$tutorial/new-tutorial">
+			<p>Subject: <t:field t:name="subject" t:size="60" /></p>
+			<p>Location: <t:textarea t:name="location" t:size="60" /></p>
+            <p>Time: <t:textarea t:name="time" t:size="60" /></p>
+			<input type="SUBMIT" value="Done" />
+		</t:form>
+	</div>
+
+	<t:validation-messages />
+</t:chloe>
