@@ -44,17 +44,35 @@ tutorial "TUTORIAL" {
 : <tutorial> ( id -- tutorial )
     \ tutorial new swap >>id ;
 
+: tutorial-by-id ( id -- tutorial )
+    <tutorial> select-tuple ;
+
+: <view-tutorial-action> (  -- action )
+    <page-action>
+        "id" >>rest
+        [
+            validate-integer-id
+            "id" value tutorial-by-id from-object
+        ] >>init
+    
+        { tutorials "view-tutorial" } >>template ;
+
 : list-tutorials (  -- tutorials )
     f <tutorial> select-tuples ;
+
+: list-tutorials-by ( -- tutorials )
+    f <tutorial> "tutor" value >>tutor select-tuples ;
 
 : <list-tutorials-action> (  -- action )
     <page-action>
         [ list-tutorials "tutorials" set-value ] >>init
         { tutorials "list-tutorials" } >>template ;
+
+: validate-tutor ( -- )
+    { { "tutor" [ v-username ] } } validate-params ;
     
 : validate-tutorial (  --  )
     {
-        { "tutor" [ v-required ] }
         { "subject" [ v-required ] }
         { "location" [ v-required ] }
         { "time" [ v-required ] }
@@ -64,7 +82,7 @@ tutorial "TUTORIAL" {
     <page-action>
         [
             validate-tutorial
-            ! username "tutor" set-value
+            username "tutor" set-value
         ] >>validate
         [
             f <tutorial>
@@ -75,6 +93,15 @@ tutorial "TUTORIAL" {
     { tutorials "new-tutorial" } >>template
     <protected>
         "make a new tutorial" >>description ;
+    
+: <tutorials-by-action> ( -- action )
+    <page-action>
+        "tutor" >>rest
+        [
+            validate-tutor
+            list-tutorials-by "sessions" set-value
+        ] >>init
+        { tutorials "tutorials-by" } >>template ;
 
 : authorize-author ( author -- )
     username =
@@ -85,5 +112,7 @@ tutorial "TUTORIAL" {
     tutorials new-dispatcher
         <list-tutorials-action> "" add-responder
         <new-tutorial-action> "new-tutorial" add-responder
+        <tutorials-by-action> "by" add-responder
+        <view-tutorial-action> "tutorial" add-responder
     <boilerplate>
         { tutorials "tutorials-common" } >>template ;
