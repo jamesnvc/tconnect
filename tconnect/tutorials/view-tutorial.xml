@@ -1,0 +1,25 @@
+<?ml version='1.0' ?>
+<t:chloe xmlns:t="http://factorcode.org/chloe/1.0">
+
+  <t:atom t:href="$tutorials/tutorial.atom" t:rest="id">
+    <t:label t:name="tutor" />: <t:label t:name="title" />
+  </t:atom>
+
+  <t:atom t:href="$tutorials/by.atom" t:rest="tutor">
+    Recent Tutorials by <t:label t:name="tutor" />
+  </t:atom>
+
+  <t:title> <t:label t:name="tutor" />: <t:label t:name="subject" /> </t:title>
+
+  <div class="tutorialing-footer">
+    Tutorial by
+    <t:a t:href="$tutorials/by" t:rest="tutor">
+      <t:label t:name="tutor" />
+    </t:a>
+    on
+    <t:label t:name="time" />
+    in
+    <t:label t:name="location" />
+  </div>
+
+</t:chloe>
