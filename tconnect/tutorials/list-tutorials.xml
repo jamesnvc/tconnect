@@ -4,6 +4,8 @@
 
 	<t:title>Recent Tutorials</t:title>
 
+    <t:a t:href="$tutorials/new-tutorial">Add a new tutorial</t:a>
+    
 	<t:bind-each t:name="tutorials">
 
 		<h2 class="tutorials-title">
