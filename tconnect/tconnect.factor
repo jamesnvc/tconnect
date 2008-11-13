@@ -19,11 +19,7 @@ furnace.auth.features.registration
 furnace.auth.features.deactivate-user
 furnace.boilerplate
 furnace.redirection
-webapps.pastebin
-webapps.planet
-webapps.wiki
 webapps.user-admin
-webapps.help 
 tconnect.tutorials ;
 IN: tconnect
 
@@ -40,15 +36,20 @@ TUPLE: tconnect-website < dispatcher ;
 : <login-config> ( responder -- responder' )
     "TConnect website" <login-realm>
         "TConnect" >>name
+        f >>secure
         allow-registration
         allow-password-recovery
         allow-edit-profile
         allow-deactivation ;
+
+: <tconnect-boilerplate> ( responder -- responder' )
+    <boilerplate>
+        { tconnect-website "main" } >>template ;
     
 : <tconnect-website> (  -- responder )
     tconnect-website new-dispatcher
-        <tutorials> "tutorials" add-responder 
-        <user-admin> <login-config> "user-admin" add-responder
+        <tutorials> <tconnect-boilerplate> <login-config> "tutorials" add-responder 
+        <user-admin> <tconnect-boilerplate> <login-config> "user-admin" add-responder
         URL" /tutorials" <redirect-responder> "" add-responder ;
     
 : common-configuration ( -- )    
@@ -62,7 +63,7 @@ TUPLE: tconnect-website < dispatcher ;
 
 : <tconnect-website-server> ( -- threaded-server )
     <http-server>
-        8888 >>insecure ;
+        8080 >>insecure ;
     
 : start-testing-site (  --  )
     init-testing
