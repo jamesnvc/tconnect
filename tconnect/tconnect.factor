@@ -32,14 +32,23 @@ IN: tconnect
 : init-factor-db ( -- )
     test-db [
         init-furnace-tables
-        { tutorials } ensure-tables
+        { tutorial } ensure-tables
     ] with-db ;
 
 TUPLE: tconnect-website < dispatcher ;    
+
+: <login-config> ( responder -- responder' )
+    "TConnect website" <login-realm>
+        "TConnect" >>name
+        allow-registration
+        allow-password-recovery
+        allow-edit-profile
+        allow-deactivation ;
     
 : <tconnect-website> (  -- responder )
     tconnect-website new-dispatcher
-        <tutorials> "tutorials" add-responder
+        <tutorials> "tutorials" add-responder 
+        <user-admin> <login-config> "user-admin" add-responder
         URL" /tutorials" <redirect-responder> "" add-responder ;
     
 : common-configuration ( -- )    

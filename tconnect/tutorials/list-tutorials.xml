@@ -7,7 +7,7 @@
 	<t:bind-each t:name="tutorials">
 
 		<h2 class="tutorials-title">
-			<t:a t:href="$tutorial/post" t:rest="id">
+			<t:a t:href="$tutorials/post" t:rest="id">
 				<t:label t:name="title" />
 			</t:a>
 		</h2>
@@ -15,11 +15,13 @@
 
         <div class="posting-footer">
 			Taught by
-			<t:a t:href="$tutorials/by" t:rest="author">
-              <t:label t:name="author" />
+			<t:a t:href="$tutorials/by" t:rest="tutor">
+              <t:label t:name="tutor" />
 			</t:a>
 			on
-			<t:label t:name="date" />
+			<t:label t:name="time" />
+            in
+            <t:label t:name="location" />
 		</div>
 
 	</t:bind-each>

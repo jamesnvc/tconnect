@@ -28,9 +28,12 @@ TUPLE: tutorial id tutor subject time location ;
 
 GENERIC: tutorial-url ( tutorial -- url )
 
+M: tutorial tutorial-url
+    id>> view-tutorial-url ;
+
 M: tutorial feed-entry-url tutorial-url ;
 
-tutorial f {
+tutorial "TUTORIAL" {
     { "id" "ID" INTEGER +db-assigned-id+ }
     { "tutor" "TUTOR" { VARCHAR 256 } +not-null+ }
     { "subject" "SUBJECT" TEXT +not-null+ }
@@ -51,6 +54,7 @@ tutorial f {
     
 : validate-tutorial (  --  )
     {
+        { "tutor" [ v-required ] }
         { "subject" [ v-required ] }
         { "location" [ v-required ] }
         { "time" [ v-required ] }
@@ -60,12 +64,11 @@ tutorial f {
     <page-action>
         [
             validate-tutorial
-            username "tutor" set-value
+            ! username "tutor" set-value
         ] >>validate
         [
             f <tutorial>
-                dup { "subject" "location" } to-object
-                username >>tutor
+                dup { "tutor" "subject" "location" } to-object
                 "time" value rfc822>timestamp >>time
              [ insert-tuple ] [ tutorial-url <redirect> ] bi
         ] >>submit 
