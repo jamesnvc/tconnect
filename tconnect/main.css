@@ -7,7 +7,7 @@ form, a{ margin: 0;
          border: 0; 
          }
 body,
-html{ background:#0F0C1C; }
+html{ background:#aaf; }
 body{ font-size: small;
       font-family: Verdana,Arial,Helvetica,sans-serif;
       min-width: 47em;
@@ -33,11 +33,11 @@ p{ margin: 0 0 1em 0.5em; }
              background-color: #010011;
              }
 /* Wraper over the content */
-div#container{ color: #0B51A9;
+div#container{ color: #0B51F9;
                margin-left: auto;
                margin-right: auto;
                }
-div#container p{ color: #50D0C9; }
+/* div#container p{ color: #50D0C9; } */
 /* Styling for the header */
 div#header{ background-color: #123456;
             border-bottom: ridge;
@@ -53,6 +53,9 @@ div#header h2{ font-size: 1.5em;
                margin: 0 0 2em 15%;
                color: #8800FF;
                }
+/* Styling for the status information */
+div#status {background-color: white;
+             }
 /* Styling for the main body */ 
 div#main{ width: 82.5%;
           border-color: #0056ad;

@@ -1,2 +1,4 @@
-a { color: green;
-    }
+a { color: green; }
+table#tutorials-list { text-align: center ; }
+table#tutorials-list tr#top-row { text-transform: uppercase; }
+table#tutorials-list tr#top-row td { background: #fff; }
