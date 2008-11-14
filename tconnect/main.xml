@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-	<t:chloe xmlns:t="http://factorcode.org/chloe/1.0">
+  <t:chloe xmlns:t="http://factorcode.org/chloe/1.0">
 
 		<head>
 			<t:write-title />
@@ -24,15 +24,30 @@
             <div id="header">
               <h1>TConnect</h1>
               <h2>Connecting Tutors and Students</h2>
-            </div>
+              <div id="status" class="floatRight">
+                <t:if t:code="furnace.auth:logged-in?">
+                  <t:if t:code="furnace.auth.features.edit-profile:allow-edit-profile?">
+                    | <t:a t:href="$realm/edit-profile" t:aside="begin">Edit Profile</t:a>
+                  </t:if>
+                  <t:button t:action="$login-realm/logout" t:aside="begin" class="link-button link">Logout</t:button>
+                  <t:else>
+                    <t:button t:action="$login-realm/login" t:aside="begin" class="link-button link">
+                      Login
+                    </t:button>
+                  </t:else>
+                </t:if>
+                
+              </div><!-- status -->
+            </div><!-- header -->
             
-            <div id="main">
-              
+            
+            <div id="main" class="floatLeft">
+
               <t:call-next-template />
               
-            </div>
+            </div> <!-- main -->
             
-          </div>
+          </div><!-- container -->
         </body>
 
     </t:chloe>

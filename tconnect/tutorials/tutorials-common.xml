@@ -2,8 +2,13 @@
 
 <t:chloe xmlns:t="http://factorcode.org/chloe/1.0">
   <t:style t:include="resource:work/tconnect/tutorials/tutorials.css" />
-  <div class="navbar">
-    <t:a t:href="$tutorials">All Tutorials</t:a>
+  
+  <div id="nav" class="floatRight">
+    <h3>Navigation</h3>
+    <ul>
+    <li><t:a t:href="$tutorials">All Tutorials</t:a></li>
+    <li><t:a t:href="$tutorials/new-tutorial">Add a new tutorial</t:a></li>
+    </ul>
   </div>
   
   <h1><t:write-title /></h1>

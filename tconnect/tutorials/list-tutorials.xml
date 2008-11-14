@@ -4,28 +4,35 @@
 
 	<t:title>Recent Tutorials</t:title>
 
-    <t:a t:href="$tutorials/new-tutorial">Add a new tutorial</t:a>
-    
+    <table id="tutorials-list">
+      <tr id="top-row">
+        <td>Subject</td>
+        <td>Tutor</td>
+        <td>Time</td>
+        <td>Location</td>
+        <td>Cost</td>
+      </tr>
 	<t:bind-each t:name="tutorials">
-
-		<h2 class="tutorials-title">
-			<t:a t:href="$tutorials/post" t:rest="id">
-				<t:label t:name="title" />
-			</t:a>
-		</h2>
-        
-
-        <div class="posting-footer">
-			Taught by
-			<t:a t:href="$tutorials/by" t:rest="tutor">
-              <t:label t:name="tutor" />
-			</t:a>
-			on
-			<t:label t:name="time" />
-            in
-            <t:label t:name="location" />
-		</div>
-
+      <tr>
+        <td>
+          <t:label t:name="subject" />
+        </td>
+        <td>
+          <t:a t:href="$tutorials/by" t:rest="tutor">
+            <t:label t:name="tutor" />
+          </t:a>
+        </td>
+        <td>
+          <t:label t:name="time" />
+        </td>
+        <td>
+          <t:label t:name="location" />
+        </td>
+        <td>
+          <t:label t:name="cost" />
+        </td>
+      </tr>
 	</t:bind-each>
+    </table>
 
 </t:chloe>

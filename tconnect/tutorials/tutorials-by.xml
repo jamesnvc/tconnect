@@ -23,6 +23,8 @@
         <t:label t:name="time" />
         in
         <t:label t:name="location" />
+        costing
+        <t:label t:name="cost" />
       </li>
 
 	</t:bind-each>
