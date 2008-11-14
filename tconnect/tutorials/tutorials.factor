@@ -24,7 +24,7 @@ can-administer-tutorials? define-capability
 : list-tutorials-url ( -- url )
     "$tutorials/" >url ;
 
-TUPLE: tutorial id tutor subject time location ;
+TUPLE: tutorial id tutor subject time location cost ;
 
 GENERIC: tutorial-url ( tutorial -- url )
 
@@ -39,6 +39,7 @@ tutorial "TUTORIAL" {
     { "subject" "SUBJECT" TEXT +not-null+ }
     { "time" "TIME" DATETIME +not-null+ }
     { "location" "LOCATION" TEXT +not-null+ }
+    { "cost" "COST" INTEGER +not-null+ }
 } define-persistent
 
 : <tutorial> ( id -- tutorial )
@@ -76,6 +77,7 @@ tutorial "TUTORIAL" {
         { "subject" [ v-required ] }
         { "location" [ v-required ] }
         { "time" [ v-required ] }
+        {  "cost" [ v-required ] }
     } validate-params ;
     
 : <new-tutorial-action> (  -- action )
@@ -86,7 +88,7 @@ tutorial "TUTORIAL" {
         ] >>validate
         [
             f <tutorial>
-                dup { "tutor" "subject" "location" } to-object
+                dup { "tutor" "subject" "location" "cost" } to-object
                 "time" value rfc822>timestamp >>time
              [ insert-tuple ] [ tutorial-url <redirect> ] bi
         ] >>submit 
