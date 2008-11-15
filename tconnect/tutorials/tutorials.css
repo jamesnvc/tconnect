@@ -1,4 +1,15 @@
-a { color: green; }
-table#tutorials-list { text-align: center ; }
-table#tutorials-list tr#top-row { text-transform: uppercase; }
-table#tutorials-list tr#top-row td { background: #fff; }
+table#tutorials-list { text-align: center ;
+                       border-collapse:collapse;
+                       margin-right: auto; }
+table#tutorials-list thead { text-transform: uppercase; }
+table#tutorials-list th { background: #00f;
+                          border-bottom:2px solid #6678B1;
+                          padding: 0.5em; }
+table#tutorials-list td { padding: 1em; }
+table#tutorials-list .highlight { background: #ddd;
+                                  color: #00f; }
+table#tutorials-list .highlight a:link { color: #00f; }
+.title { color: #123456; }
+table#tutorials-list .actions { font-size: 0.7em; }
+table#tutorials-list button.link { display: block;
+                                   }

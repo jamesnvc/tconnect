@@ -1,11 +1,11 @@
 ! Copyright (C) 2008 James Cash
 ! See http://factorcode.org/license.txt for BSD license.
-USING: kernel sequences
+USING: kernel sequences math.parser
 http.server.dispatchers
 furnace.syndication furnace.redirection
 furnace.auth furnace.actions
 furnace.boilerplate
-db.types db.tuples
+db db.types db.tuples
 accessors present urls 
 html.forms
 validators calendar.format
@@ -24,21 +24,24 @@ can-administer-tutorials? define-capability
 : list-tutorials-url ( -- url )
     "$tutorials/" >url ;
 
+: tutorials-by-url ( tutor -- url )
+    "$tutorials/by/" prepend >url ;
+
 TUPLE: tutorial id tutor subject time location cost ;
 
-GENERIC: tutorial-url ( tutorial -- url )
+GENERIC: entity-url ( entity -- url )
 
-M: tutorial tutorial-url
+M: tutorial entity-url
     id>> view-tutorial-url ;
 
-M: tutorial feed-entry-url tutorial-url ;
+M: tutorial feed-entry-url entity-url ;
 
 tutorial "TUTORIAL" {
     { "id" "ID" INTEGER +db-assigned-id+ }
     { "tutor" "TUTOR" { VARCHAR 256 } +not-null+ }
-    { "subject" "SUBJECT" TEXT +not-null+ }
-    { "time" "TIME" DATETIME +not-null+ }
-    { "location" "LOCATION" TEXT +not-null+ }
+    { "subject" "SUBJECT" { VARCHAR 256 } +not-null+ }
+    { "time" "TIME" { VARCHAR 256 } +not-null+ }
+    { "location" "LOCATION" { VARCHAR 256 } +not-null+ }
     { "cost" "COST" INTEGER +not-null+ }
 } define-persistent
 
@@ -77,7 +80,7 @@ tutorial "TUTORIAL" {
         { "subject" [ v-required ] }
         { "location" [ v-required ] }
         { "time" [ v-required ] }
-        {  "cost" [ v-required ] }
+        {  "cost" [ v-integer ] }
     } validate-params ;
     
 : <new-tutorial-action> (  -- action )
@@ -88,9 +91,8 @@ tutorial "TUTORIAL" {
         ] >>validate
         [
             f <tutorial>
-                dup { "tutor" "subject" "location" "cost" } to-object
-                "time" value rfc822>timestamp >>time
-             [ insert-tuple ] [ tutorial-url <redirect> ] bi
+                dup { "tutor" "subject" "location" "time" "cost" } to-object
+             [ insert-tuple ] [ entity-url <redirect> ] bi
         ] >>submit 
     { tutorials "new-tutorial" } >>template
     <protected>
@@ -110,11 +112,50 @@ tutorial "TUTORIAL" {
     { can-administer-tutorials? } have-capabilities? or
     [ "edit a tutorial listing" f login-required ] unless ;
 
+: do-tutorial-action (  --  )
+    validate-integer-id
+    "id" value <tutorial> select-tuple from-object ;
+
+: <edit-tutorial-action> (  -- action )
+    <page-action>
+        "id" >>rest
+        [ do-tutorial-action ] >>init
+        [ do-tutorial-action validate-tutorial ] >>validate
+        [ "tutor" value authorize-author ] >>authorize
+        [
+            "id" value <tutorial>
+            dup { "tutor" "subject" "location" "time" "cost" } to-object
+            [ update-tuple ] [ entity-url <redirect> ] bi
+        ] >>submit
+    { tutorials "edit-tutorial" } >>template
+    
+    <protected>
+        "edit a tutorial" >>description ;
+
+: delete-tutorial ( id --  )
+    <tutorial> delete-tuples ;
+    
+: owner? (  -- ? )
+    "tutor" value username = { can-administer-tutorials? } have-capabilities? or ;
+    
+: <delete-tutorial-action> (  -- action )
+    <action>
+        [ do-tutorial-action ] >>validate
+        [ "tutor" value authorize-author ] >>authorize
+        [
+            [ "id" value delete-tutorial ] with-transaction
+            list-tutorials-url <redirect>
+        ] >>submit
+    <protected>
+        "delete a tutorial" >>description ;
+
 : <tutorials> (  -- dispatcher )
     tutorials new-dispatcher
         <list-tutorials-action> "" add-responder
         <new-tutorial-action> "new-tutorial" add-responder
         <tutorials-by-action> "by" add-responder
         <view-tutorial-action> "tutorial" add-responder
+        <edit-tutorial-action> "edit-tutorial" add-responder
+        <delete-tutorial-action> "delete-tutorial" add-responder
     <boilerplate>
         { tutorials "tutorials-common" } >>template ;

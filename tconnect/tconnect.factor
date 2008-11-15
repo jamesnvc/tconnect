@@ -4,7 +4,7 @@ USING: accessors kernel sequences assocs io.files io.sockets
 io.sockets.secure io.servers.connection
 namespaces db db.tuples db.sqlite smtp urls
 logging.insomniac
-html.templates.chloe
+html.templates.chloe html.templates.chloe.compiler html.templates.chloe.syntax
 http.server
 http.server.dispatchers
 http.server.redirection
@@ -33,6 +33,12 @@ IN: tconnect
 
 TUPLE: tconnect-website < dispatcher ;    
 
+CHLOE: unless dup if>quot [ swap unless ] append process-children ;
+
+: <tconnect-boilerplate> ( responder -- responder' )
+    <boilerplate>
+        { tconnect-website "main" } >>template ;
+
 : <login-config> ( responder -- responder' )
     "TConnect website" <login-realm>
         "TConnect" >>name
@@ -41,16 +47,17 @@ TUPLE: tconnect-website < dispatcher ;
         allow-password-recovery
         allow-edit-profile
         allow-deactivation ;
-
-: <tconnect-boilerplate> ( responder -- responder' )
-    <boilerplate>
-        { tconnect-website "main" } >>template ;
+    
+: tconnect-root (  -- object )
+    home "src/factor/work/tconnect" append-path ;
     
 : <tconnect-website> (  -- responder )
     tconnect-website new-dispatcher
-        <tutorials> <tconnect-boilerplate> <login-config> "tutorials" add-responder 
-        <user-admin> <tconnect-boilerplate> <login-config> "user-admin" add-responder
-        URL" /tutorials" <redirect-responder> "" add-responder ;
+        <tutorials> <login-config> "tutorials" add-responder 
+        <user-admin> <login-config> "user-admin" add-responder
+        tconnect-root "images" append-path <static> "images" add-responder
+        URL" /tutorials" <redirect-responder> "" add-responder
+    <tconnect-boilerplate> ;
     
 : common-configuration ( -- )    
     init-factor-db ;
@@ -58,7 +65,7 @@ TUPLE: tconnect-website < dispatcher ;
 : init-testing (  --  )
     common-configuration
     <tconnect-website>
-    test-db <alloy>
+        test-db <alloy>
     main-responder set-global ;
 
 : <tconnect-website-server> ( -- threaded-server )

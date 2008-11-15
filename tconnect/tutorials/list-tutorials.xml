@@ -5,34 +5,56 @@
 	<t:title>Recent Tutorials</t:title>
 
     <table id="tutorials-list">
-      <tr id="top-row">
-        <td>Subject</td>
-        <td>Tutor</td>
-        <td>Time</td>
-        <td>Location</td>
-        <td>Cost</td>
-      </tr>
-	<t:bind-each t:name="tutorials">
-      <tr>
-        <td>
-          <t:label t:name="subject" />
-        </td>
-        <td>
-          <t:a t:href="$tutorials/by" t:rest="tutor">
-            <t:label t:name="tutor" />
-          </t:a>
-        </td>
-        <td>
-          <t:label t:name="time" />
-        </td>
-        <td>
-          <t:label t:name="location" />
-        </td>
-        <td>
-          <t:label t:name="cost" />
-        </td>
-      </tr>
-	</t:bind-each>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Tutor</th>
+          <th>Time</th>
+          <th>Location</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <t:bind-each t:name="tutorials">
+
+          <tr>
+            
+            <td>
+              <t:label t:name="subject" />
+            </td>
+            
+            <td>
+              <t:a t:href="$tutorials/by" t:rest="tutor">
+                <t:label t:name="tutor" />
+              </t:a>
+            </td>
+            
+            <td>
+              <t:label t:name="time" />
+            </td>
+            
+            <td>
+              <t:label t:name="location" />
+            </td>
+            
+            <td>
+              <t:label t:name="cost" />
+            </td>
+            
+            <t:if t:code="tconnect.tutorials:owner?">
+              
+              <td class="actions">
+                <t:a t:href="$tutorials/edit-tutorial" t:rest="id">Edit Tutorial</t:a>
+                <t:button t:action="$tutorials/delete-tutorial" t:for="id,tutor" class="link-button link">Delete Tutorial</t:button>
+              </td>
+              
+            </t:if>
+            
+          </tr>
+          
+        </t:bind-each>
+      </tbody>
     </table>
 
 </t:chloe>

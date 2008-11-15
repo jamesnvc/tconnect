@@ -9,9 +9,9 @@
     Recent Tutorials by <t:label t:name="tutor" />
   </t:atom>
 
-  <t:title> <t:label t:name="tutor" />: <t:label t:name="subject" /> </t:title>
-
-  <div class="tutorialing-footer">
+  <t:title><t:label t:name="tutor" />: <t:label t:name="subject" /></t:title>
+  
+  <p>
     Tutorial by
     <t:a t:href="$tutorials/by" t:rest="tutor">
       <t:label t:name="tutor" />
@@ -20,6 +20,6 @@
     <t:label t:name="time" />
     in
     <t:label t:name="location" />
-  </div>
+  </p>
 
 </t:chloe>

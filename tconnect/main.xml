@@ -22,34 +22,45 @@
           <div id="container">
             
             <div id="header">
+              
               <h1>TConnect</h1>
               <h2>Connecting Tutors and Students</h2>
-              <div id="status" class="floatRight">
+              
+              <div id="status">
                 <t:if t:code="furnace.auth:logged-in?">
                   <t:if t:code="furnace.auth.features.edit-profile:allow-edit-profile?">
-                    | <t:a t:href="$realm/edit-profile" t:aside="begin">Edit Profile</t:a>
+                    <t:a t:href="$realm/edit-profile" t:aside="begin">Edit Profile</t:a>
                   </t:if>
                   <t:button t:action="$login-realm/logout" t:aside="begin" class="link-button link">Logout</t:button>
-                  <t:else>
-                    <t:button t:action="$login-realm/login" t:aside="begin" class="link-button link">
-                      Login
-                    </t:button>
-                  </t:else>
+                  
                 </t:if>
+                
+                <t:unless t:code="furnace.auth:logged-in?">
+                  <t:a t:href="$login-realm/login">Login</t:a>
+                </t:unless>
                 
               </div><!-- status -->
             </div><!-- header -->
             
             
-            <div id="main" class="floatLeft">
+            <div id="nav" class="floatLeft">
+              <h3>Navigation</h3>
+              <ul>
+                <li><t:a t:href="$tconnect-website/tutorials">All Tutorials</t:a></li>
+                <li><t:a t:href="$tconnect-website/tutorials/new-tutorial">Add a new tutorial</t:a></li>
+              </ul>
+            </div> <!-- nav -->            
+            
+            <div id="main" class="floatRight">
 
               <t:call-next-template />
               
             </div> <!-- main -->
+
             
           </div><!-- container -->
+          
         </body>
 
     </t:chloe>
-
 </html>

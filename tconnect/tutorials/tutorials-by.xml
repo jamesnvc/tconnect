@@ -9,25 +9,25 @@
 	<t:title>
 		Recent Tutorials by <t:label t:name="tutor" />
 	</t:title>
-
-    <ul>
-	<t:bind-each t:name="sessions">
-
-      <li>
-        <t:a t:href="$tutorials/by" t:rest="tutor">
-          <t:label t:name="tutor" />
-        </t:a>
-        tutors
-        <t:label t:name="subject" />
-        at
-        <t:label t:name="time" />
-        in
-        <t:label t:name="location" />
-        costing
-        <t:label t:name="cost" />
-      </li>
-
-	</t:bind-each>
-    </ul>
-
+    <h2>Tutors:</h2>
+    <table id="tutorials-list">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Time</th>
+          <th>Location</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <t:bind-each t:name="sessions">
+          <tr>
+            <td><t:label t:name="subject" /></td>
+            <td><t:label t:name="time" /></td>
+            <td><t:label t:name="location" /></td>
+            <td><t:label t:name="cost" /></td>
+          </tr>
+        </t:bind-each>
+      </tbody>
+    </table>
 </t:chloe>
