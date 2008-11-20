@@ -8,8 +8,7 @@ furnace.boilerplate
 db db.types db.tuples
 accessors present urls 
 html.forms
-validators calendar.format
-;
+validators calendar.format ;
 IN: tconnect.tutorials
 
 TUPLE: tutorials < dispatcher ;
@@ -70,6 +69,8 @@ tutorial "TUTORIAL" {
 : <list-tutorials-action> (  -- action )
     <page-action>
         [ list-tutorials "tutorials" set-value ] >>init
+        { tutorials "list-tutorials-common" } >>template        
+    <boilerplate>
         { tutorials "list-tutorials" } >>template ;
 
 : validate-tutor ( -- )
@@ -103,8 +104,10 @@ tutorial "TUTORIAL" {
         "tutor" >>rest
         [
             validate-tutor
-            list-tutorials-by "sessions" set-value
+            list-tutorials-by "tutorials" set-value
         ] >>init
+        { tutorials "list-tutorials-common" } >>template        
+    <boilerplate>
         { tutorials "tutorials-by" } >>template ;
 
 : authorize-author ( author -- )
@@ -127,8 +130,7 @@ tutorial "TUTORIAL" {
             dup { "tutor" "subject" "location" "time" "cost" } to-object
             [ update-tuple ] [ entity-url <redirect> ] bi
         ] >>submit
-    { tutorials "edit-tutorial" } >>template
-    
+        { tutorials "edit-tutorial" } >>template
     <protected>
         "edit a tutorial" >>description ;
 
@@ -151,7 +153,7 @@ tutorial "TUTORIAL" {
 
 : <tutorials> (  -- dispatcher )
     tutorials new-dispatcher
-        <list-tutorials-action> "" add-responder
+        <list-tutorials-action> "" add-responder ! Comment to fix font-lock weirdness
         <new-tutorial-action> "new-tutorial" add-responder
         <tutorials-by-action> "by" add-responder
         <view-tutorial-action> "tutorial" add-responder

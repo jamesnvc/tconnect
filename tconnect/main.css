@@ -37,6 +37,7 @@ a:hover { color: #f00; }
 /* Classes */
 .floatRight { float: right; }
 .floatLeft { float: left; }
+.title { color: darkblue; }
 .error { color: red; }
 /* Wraper over the content */
 div#container{ color: #fff;
@@ -60,7 +61,9 @@ div#header h2{ font-size: 1.5em;
                color: #8800FF;
                }
 /* Styling for the status information */
-div#status { }
+div#status button { text-align: center;
+                    height: 1.5em;
+                    width: 5em; }
 /* Styling for the main body */ 
 div#main{ width: 82.5%;
           border-color: #0056ad;

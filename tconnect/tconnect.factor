@@ -1,15 +1,11 @@
 ! Copyright (C) 2008 James Cash
 ! See http://factorcode.org/license.txt for BSD license.
-USING: accessors kernel sequences assocs io.files io.sockets
-io.sockets.secure io.servers.connection
+USING: kernel accessors sequences assocs
+io.files io.sockets io.sockets.secure io.servers.connection
 namespaces db db.tuples db.sqlite smtp urls
-logging.insomniac
+logging logging.server logging.insomniac
 html.templates.chloe html.templates.chloe.compiler html.templates.chloe.syntax
-http.server
-http.server.dispatchers
-http.server.redirection
-http.server.static
-http.server.cgi
+http.server http.server.dispatchers http.server.redirection http.server.static http.server.cgi
 furnace.alloy
 furnace.auth.login
 furnace.auth.providers.db
@@ -22,6 +18,9 @@ furnace.redirection
 webapps.user-admin
 tconnect.tutorials ;
 IN: tconnect
+    
+: tconnect-root (  -- object )
+    home "src/factor/work/tconnect" append-path ;
 
 : test-db ( -- db ) "resource:work/tconnect/test.db" <sqlite-db> ;
 
@@ -48,14 +47,11 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
         allow-edit-profile
         allow-deactivation ;
     
-: tconnect-root (  -- object )
-    home "src/factor/work/tconnect" append-path ;
-    
 : <tconnect-website> (  -- responder )
     tconnect-website new-dispatcher
         <tutorials> <login-config> "tutorials" add-responder 
         <user-admin> <login-config> "user-admin" add-responder
-        tconnect-root "images" append-path <static> "images" add-responder
+        ! tconnect-root "images" append-path <static> "images" add-responder
         URL" /tutorials" <redirect-responder> "" add-responder
     <tconnect-boilerplate> ;
     
@@ -73,6 +69,6 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
         8080 >>insecure ;
     
 : start-testing-site (  --  )
-    init-testing
-    t development? set-global
-    <tconnect-website-server> start-server ;
+        init-testing
+        t development? set-global
+        <tconnect-website-server> start-server ;
