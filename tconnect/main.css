@@ -31,9 +31,12 @@ a { background:transparent none repeat scroll 0 0;
     border-color: #f00;
     text-decoration:none;
     }
-a:link { color: #fff; }
+a:link, a { color: #fff;
+            text-decoration: none;
+            border-bottom: 1px dotted #960;}
 a:visited { color:#f00; }
-a:hover { color: #f00; }
+a:hover { color: #f00;
+          border-bottom: 1px solid #f00; }
 /* Classes */
 .floatRight { float: right; }
 .floatLeft { float: left; }
