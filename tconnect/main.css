@@ -78,32 +78,34 @@ div#main{ width: 82.5%;
           }
 div#main input{ display: inline; }
 /* Styling for creating a nav */
-div#nav{ clear: both;
-         width: 15%;
-         background-color: #003355;
-         color: #00BBBB;
-         margin-right: 0.5em;
+#nav { clear: both;
+      width: 15%;
+      background-color: #003355;
+      color: #00BBBB;
+      margin-right: 0.5em;
+      }
+#nav h3{ border-bottom: 1px dashed; }
+#nav ul{ margin: 0em;
+         padding: 0em;
+         font-size: 0.8em;
+         color: #FFF;
+         line-height: 2.5em;
+         white-space: nowrap;
+         background-color: #10A2E1;
+         margin-bottom: 1em;
          }
-div#nav h3{ border-bottom: 1px dashed; }
-div#nav ul{ margin: 0em;
-            padding: 0em;
-            font-size: 0.8em;
-            color: #FFF;
-            line-height: 2.5em;
-            white-space: nowrap;
-            background-color: #10A2E1;
-            margin-bottom: 1em;
-            }
-div#nav li{ list-style-type: none;
-            }
-div#nav li a{ text-decoration: none;
-              padding: 0.44em 1.19em;
-              color: #00F;
-              border-bottom: none;
-              }
-div#nav li a:link { color: #fff; }
-div#nav li a:visited { color: #fff; }
-div#nav li a:hover{ /* font-weight: bold; */
+#nav li{ list-style-type: none;
+         }
+#nav a{ text-decoration: none;
+        padding: 0.44em 1.19em;
+        color: #00F;
+        border-bottom: none;
+        display: block;
+        height: 1.5em;
+           }
+#nav li a:link { color: #fff; }
+#nav li a:visited { color: #fff; }
+#nav li a:hover{ /* font-weight: bold; */
                     color: #FFF;
                     background-color: #3366FF;
                        }
