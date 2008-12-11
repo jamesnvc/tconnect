@@ -10,5 +10,4 @@ table#tutorials-list .highlight { background: #ddd;
                                   color: #00f; }
 table#tutorials-list .highlight a:link { color: #00f; }
 table#tutorials-list .actions { font-size: 0.7em; }
-table#tutorials-list button.link { display: block;
-                                   }
+table#tutorials-list button.link { display: block; }
