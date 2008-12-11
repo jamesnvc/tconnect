@@ -62,10 +62,11 @@
                 <li><t:a t:href="$tconnect-website/tutorials">All Tutorials</t:a></li>
                 <li><t:a t:href="$tconnect-website/tutorials/new-tutorial">Add a new tutorial</t:a></li>
               </ul>
+              
             </div> <!-- nav -->            
             
             <div id="main" class="floatRight">
-
+              
               <t:call-next-template />
               
             </div> <!-- main -->
