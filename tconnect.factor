@@ -58,7 +58,7 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
 : common-configuration ( -- )    
     init-factor-db ;
 
-: init-testing (  --  )
+: init-testing ( -- )
     common-configuration
     <tconnect-website>
         test-db <alloy>
