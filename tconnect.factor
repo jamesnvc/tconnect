@@ -1,7 +1,7 @@
 ! Copyright (C) 2008 James Cash
 ! See http://factorcode.org/license.txt for BSD license.
 USING: kernel accessors sequences assocs
-io.files io.sockets io.sockets.secure io.servers.connection
+io.files io.sockets io.sockets.secure io.servers.connection io.pathnames
 namespaces db db.tuples db.sqlite smtp urls
 logging logging.server logging.insomniac
 html.templates.chloe html.templates.chloe.compiler html.templates.chloe.syntax
