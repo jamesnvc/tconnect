@@ -51,7 +51,7 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
     tconnect-website new-dispatcher
         <tutorials> <login-config> "tutorials" add-responder 
         <user-admin> <login-config> "user-admin" add-responder
-        ! tconnect-root "images" append-path <static> "images" add-responder
+        tconnect-root "images" append-path <static> "images" add-responder
         URL" /tutorials" <redirect-responder> "" add-responder
     <tconnect-boilerplate> ;
     
