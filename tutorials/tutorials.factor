@@ -153,7 +153,7 @@ tutorial "TUTORIAL" {
 
 : <tutorials> (  -- dispatcher )
     tutorials new-dispatcher
-        <list-tutorials-action> "" add-responder ! Comment to fix font-lock weirdness
+        <list-tutorials-action> "" add-responder
         <new-tutorial-action> "new-tutorial" add-responder
         <tutorials-by-action> "by" add-responder
         <view-tutorial-action> "tutorial" add-responder
