@@ -18,7 +18,7 @@ furnace.redirection
 webapps.user-admin
 tconnect.tutorials ;
 IN: tconnect
-    
+
 : tconnect-root (  -- object )
     home "src/factor/work/tconnect" append-path ;
 
@@ -30,7 +30,7 @@ IN: tconnect
         { tutorial } ensure-tables
     ] with-db ;
 
-TUPLE: tconnect-website < dispatcher ;    
+TUPLE: tconnect-website < dispatcher ;
 
 CHLOE: unless dup if>quot [ swap unless ] append process-children ;
 
@@ -46,16 +46,16 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
         allow-password-recovery
         allow-edit-profile
         allow-deactivation ;
-    
+
 : <tconnect-website> (  -- responder )
     tconnect-website new-dispatcher
-        <tutorials> <login-config> "tutorials" add-responder 
+        <tutorials> <login-config> "tutorials" add-responder
         <user-admin> <login-config> "user-admin" add-responder
         tconnect-root "images" append-path <static> "images" add-responder
         URL" /tutorials" <redirect-responder> "" add-responder
     <tconnect-boilerplate> ;
-    
-: common-configuration ( -- )    
+
+: common-configuration ( -- )
     init-factor-db ;
 
 : init-testing ( -- )
@@ -67,7 +67,7 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
 : <tconnect-website-server> ( -- threaded-server )
     <http-server>
         8080 >>insecure ;
-    
+
 : start-testing-site (  --  )
         init-testing
         t development? set-global
