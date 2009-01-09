@@ -50,7 +50,7 @@ div#container{ color: #fff;
 div#header{ background-color: #123456;
             border-bottom: ridge;
             font-family: Georgia,serif;
-            background-image: url("images/lotus.jpg");
+            background-image: url("/images/lotus.jpg");
             background-repeat: no-repeat;
             background-position: right;
             height: 200px;
