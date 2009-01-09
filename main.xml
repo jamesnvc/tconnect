@@ -13,10 +13,10 @@
 
 			<t:style t:include="resource:work/tconnect/main.css" />
 
-            <t:write-style />
+			<t:write-style />
             
 		</head>
-        
+
 		<body id="front">
           <div id="container">
             
