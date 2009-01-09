@@ -6,7 +6,7 @@ furnace.syndication furnace.redirection
 furnace.auth furnace.actions
 furnace.boilerplate
 db db.types db.tuples
-accessors present urls
+accessors present urls 
 html.forms formatting logging
 validators calendar calendar.format ;
 IN: tconnect.tutorials
@@ -67,7 +67,7 @@ tutorial "TUTORIAL" {
             validate-integer-id
             "id" value tutorial-by-id from-object
         ] >>init
-
+    
         { tutorials "view-tutorial" } >>template ;
 
 : list-tutorials (  -- tutorials )
@@ -90,7 +90,7 @@ tutorial "TUTORIAL" {
 
 : validate-tutor ( -- )
     { { "tutor" [ v-username ] } } validate-params ;
-
+    
 : validate-tutorial (  --  )
     {
         { "subject" [ v-required ] }
@@ -115,7 +115,7 @@ tutorial "TUTORIAL" {
 : get-date ( field -- timestamp )
     now year>> swap dup [ "-month" append value month-ordinal ] dip
     "-day" append value [ "-" glue ] bi@ ;
-
+    
 : <new-tutorial-action> (  -- action )
     <page-action>
         [ set-time-choices ] >>init
@@ -138,7 +138,7 @@ tutorial "TUTORIAL" {
     { tutorials "new-tutorial" } >>template
     <protected>
         "make a new tutorial" >>description ;
-
+    
 : <tutorials-by-action> ( -- action )
     <page-action>
         "tutor" >>rest
@@ -178,10 +178,10 @@ tutorial "TUTORIAL" {
 
 : delete-tutorial ( id --  )
     <tutorial> delete-tuples ;
-
+    
 : owner? (  -- ? )
     "tutor" value username = { can-administer-tutorials? } have-capabilities? or ;
-
+    
 : <delete-tutorial-action> (  -- action )
     <action>
         [ do-tutorial-action ] >>validate
