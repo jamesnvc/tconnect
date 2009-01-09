@@ -39,8 +39,14 @@ a:hover { color: #f00;
 /* Classes */
 .floatRight { float: right; }
 .floatLeft { float: left; }
+.nested { margin-left: 3em; }
 .title { color: darkblue; }
 .error { color: red; }
+.username { color: purple; }
+/* special id's */
+#logout { background-color: darkblue;
+          color: white; }
+#logout:hover { background-color: red; }
 /* Wraper over the content */
 div#container{ color: #fff;
                margin-left: auto;

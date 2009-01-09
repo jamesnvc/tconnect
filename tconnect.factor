@@ -4,9 +4,10 @@ USING: kernel accessors sequences assocs
 io.files io.sockets io.sockets.secure io.servers.connection io.pathnames
 namespaces db db.tuples db.sqlite smtp urls
 logging logging.server logging.insomniac
-html.templates.chloe html.templates.chloe.compiler html.templates.chloe.syntax
+html.forms html.templates.chloe html.templates.chloe.compiler html.templates.chloe.syntax
 http.server http.server.dispatchers http.server.redirection http.server.static http.server.cgi
 furnace.alloy
+furnace.auth
 furnace.auth.login
 furnace.auth.providers.db
 furnace.auth.features.edit-profile
@@ -36,7 +37,9 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
 
 : <tconnect-boilerplate> ( responder -- responder' )
     <boilerplate>
+        [ username "username" set-value ] >>init
         { tconnect-website "main" } >>template ;
+    
 
 : <login-config> ( responder -- responder' )
     "TConnect website" <login-realm>
@@ -69,6 +72,6 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
         8080 >>insecure ;
 
 : start-testing-site (  --  )
-        init-testing
-        t development? set-global
-        <tconnect-website-server> start-server ;
+    init-testing
+    t development? set-global
+    <tconnect-website-server> start-server ;

@@ -13,10 +13,10 @@
 
 			<t:style t:include="resource:work/tconnect/main.css" />
 
-			<t:write-style />
+            <t:write-style />
             
 		</head>
-
+        
 		<body id="front">
           <div id="container">
             
@@ -37,6 +37,8 @@
                   
                 <t:if t:code="furnace.auth:logged-in?">
                   
+                  <li>You are currently logged in as <span class="username"><t:label t:name="username" /></span></li>
+                  
                   <t:if t:code="furnace.auth.features.edit-profile:allow-edit-profile?">
                     <li>
                       <t:a t:href="$realm/edit-profile" t:aside="begin">Edit Profile</t:a>
@@ -51,7 +53,7 @@
                 
                 
                 <t:if t:code="furnace.auth:logged-in?">
-                  <t:button t:action="$login-realm/logout" t:aside="begin" class="link-button link">Logout</t:button>
+                  <t:button id="logout" t:action="$login-realm/logout" t:aside="begin" class="link-button link">Logout</t:button>
                 </t:if>
 
                 </ul>

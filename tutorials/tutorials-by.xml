@@ -7,7 +7,7 @@
 	</t:atom>
 
 	<t:title>
-		Recent Tutorials by <t:label t:name="tutor" />
+		Recent Tutorials by <span class="username"><t:label t:name="tutor" /></span>
 	</t:title>
     
     <t:call-next-template />

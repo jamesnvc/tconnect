@@ -29,7 +29,7 @@
         </td>
         
         <td>
-          <t:label t:name="time" />
+          <t:inspector t:name="time" />
         </td>
         
         <td>

@@ -1,19 +1,24 @@
 ! Copyright (C) 2008 James Cash
 ! See http://factorcode.org/license.txt for BSD license.
-USING: kernel sequences math.parser
+USING: kernel sequences math math.parser math.ranges
 http.server.dispatchers
 furnace.syndication furnace.redirection
 furnace.auth furnace.actions
 furnace.boilerplate
 db db.types db.tuples
-accessors present urls 
-html.forms
-validators calendar.format ;
+accessors present urls
+html.forms formatting logging
+validators calendar calendar.format ;
 IN: tconnect.tutorials
 
 TUPLE: tutorials < dispatcher ;
 
 SYMBOL: can-administer-tutorials?
+
+LOG: log-obj DEBUG
+
+: tconnect-log ( object --  )
+    "tconnect" [ log-obj ] with-logging ;
 
 can-administer-tutorials? define-capability
 
@@ -26,7 +31,7 @@ can-administer-tutorials? define-capability
 : tutorials-by-url ( tutor -- url )
     "$tutorials/by/" prepend >url ;
 
-TUPLE: tutorial id tutor subject time location cost ;
+TUPLE: tutorial id tutor subject cost location starts ends time length day repeats ;
 
 GENERIC: entity-url ( entity -- url )
 
@@ -39,9 +44,14 @@ tutorial "TUTORIAL" {
     { "id" "ID" INTEGER +db-assigned-id+ }
     { "tutor" "TUTOR" { VARCHAR 256 } +not-null+ }
     { "subject" "SUBJECT" { VARCHAR 256 } +not-null+ }
-    { "time" "TIME" { VARCHAR 256 } +not-null+ }
     { "location" "LOCATION" { VARCHAR 256 } +not-null+ }
     { "cost" "COST" INTEGER +not-null+ }
+    { "starts" "STARTS" DATE +not-null+ }
+    { "ends" "ENDS" DATE +not-null+ }
+    { "time" "STARTTIME" TIME +not-null+ }
+    { "length" "TUT_LEN" INTEGER +not-null+ }
+    { "day" "DAY" { VARCHAR 9 } +not-null+ }
+    { "repeats" "REPEATS" BOOLEAN }
 } define-persistent
 
 : <tutorial> ( id -- tutorial )
@@ -57,7 +67,7 @@ tutorial "TUTORIAL" {
             validate-integer-id
             "id" value tutorial-by-id from-object
         ] >>init
-    
+
         { tutorials "view-tutorial" } >>template ;
 
 : list-tutorials (  -- tutorials )
@@ -66,39 +76,69 @@ tutorial "TUTORIAL" {
 : list-tutorials-by ( -- tutorials )
     f <tutorial> "tutor" value >>tutor select-tuples ;
 
+: list-with-template ( responder template -- responder' )
+    [
+        { tutorials "list-tutorials-common" } >>template
+        <boilerplate>
+            ! [ "time" value timestamp>hms "time" set-value ] >>init
+    ] dip >>template ;
+
 : <list-tutorials-action> (  -- action )
     <page-action>
         [ list-tutorials "tutorials" set-value ] >>init
-        { tutorials "list-tutorials-common" } >>template        
-    <boilerplate>
-        { tutorials "list-tutorials" } >>template ;
+    { tutorials "list-tutorials" } list-with-template ;
 
 : validate-tutor ( -- )
     { { "tutor" [ v-username ] } } validate-params ;
-    
+
 : validate-tutorial (  --  )
     {
         { "subject" [ v-required ] }
         { "location" [ v-required ] }
-        { "time" [ v-required ] }
+        { "length" [ v-integer ] }
         {  "cost" [ v-integer ] }
     } validate-params ;
-    
+
+: set-time-choices (  --  )
+    24 [ "%02d" sprintf ] map "tut-hours" set-value
+    0 45 15 <range> [ "%02d" sprintf ] map "tut-minutes" set-value
+    month-names "months" set-value
+    day-names "weekdays" set-value
+    31 [1,b] [ number>string ] map "days" set-value ;
+
+: get-time (  -- timestamp )
+    "time-hours" "time-minutes" [ value ] bi@ ":" glue ":00" append [ tconnect-log ] [ hms>timestamp ] bi ;
+
+: month-ordinal ( name-string -- int-string' )
+    month-names index 1+ "%02d" sprintf ;
+
+: get-date ( field -- timestamp )
+    now year>> swap dup [ "-month" append value month-ordinal ] dip
+    "-day" append value [ "-" glue ] bi@ ;
+
 : <new-tutorial-action> (  -- action )
     <page-action>
+        [ set-time-choices ] >>init
         [
-            validate-tutorial
             username "tutor" set-value
+            validate-tutorial
         ] >>validate
         [
             f <tutorial>
-                dup { "tutor" "subject" "location" "time" "cost" } to-object
-             [ insert-tuple ] [ entity-url <redirect> ] bi
-        ] >>submit 
+                dup { "tutor" "subject" "location" "cost" "length" "day" } to-object
+                "one-off" value not >>repeats
+                "starts" get-date >>starts
+                "ends" get-date >>ends
+            dup tconnect-log
+            "time-hours" dup value append tconnect-log
+            "time-minutes" dup value append tconnect-log
+                get-time >>time
+            [ tconnect-log ] [ insert-tuple ] [ entity-url <redirect> ] tri
+        ] >>submit
     { tutorials "new-tutorial" } >>template
     <protected>
         "make a new tutorial" >>description ;
-    
+
 : <tutorials-by-action> ( -- action )
     <page-action>
         "tutor" >>rest
@@ -106,9 +146,7 @@ tutorial "TUTORIAL" {
             validate-tutor
             list-tutorials-by "tutorials" set-value
         ] >>init
-        { tutorials "list-tutorials-common" } >>template        
-    <boilerplate>
-        { tutorials "tutorials-by" } >>template ;
+    { tutorials "tutorials-by" } list-with-template ;
 
 : authorize-author ( author -- )
     username =
@@ -122,12 +160,16 @@ tutorial "TUTORIAL" {
 : <edit-tutorial-action> (  -- action )
     <page-action>
         "id" >>rest
-        [ do-tutorial-action ] >>init
-        [ do-tutorial-action validate-tutorial ] >>validate
+        [ set-time-choices do-tutorial-action ] >>init
+        [ set-time-choices do-tutorial-action validate-tutorial ] >>validate
         [ "tutor" value authorize-author ] >>authorize
         [
             "id" value <tutorial>
-            dup { "tutor" "subject" "location" "time" "cost" } to-object
+            dup { "tutor" "subject" "location" "cost" "length" "day" } to-object
+            "one-off" value not >>repeats
+            get-time  >>time
+            "starts" get-date >>starts
+            "ends" get-date >>ends
             [ update-tuple ] [ entity-url <redirect> ] bi
         ] >>submit
         { tutorials "edit-tutorial" } >>template
@@ -136,10 +178,10 @@ tutorial "TUTORIAL" {
 
 : delete-tutorial ( id --  )
     <tutorial> delete-tuples ;
-    
+
 : owner? (  -- ? )
     "tutor" value username = { can-administer-tutorials? } have-capabilities? or ;
-    
+
 : <delete-tutorial-action> (  -- action )
     <action>
         [ do-tutorial-action ] >>validate
