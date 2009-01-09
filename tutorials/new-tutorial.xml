@@ -2,38 +2,38 @@
 
 <t:chloe xmlns:t="http://factorcode.org/chloe/1.0">
 
-	<t:title>New Tutorial</t:title>
+  <t:title>New Tutorial</t:title>
 
-    <div class="tutorial-form">
-      <t:form t:action="$tutorials/new-tutorial">
-        <p>Subject: <t:field t:name="subject" t:size="20" /></p>
-        <p>Location: <t:field t:name="location" t:size="20" /></p>
-        <p>Cost: $<t:field t:name="cost" t:size="3" /></p>
-        <p>One-off? <t:checkbox t:name="one-off" /></p>
-        <p>Day: <t:choice t:name="day" t:choices="weekdays" /></p>
-        <p>
-          Time:
-          <t:choice t:name="time-hours" t:choices="tut-hours" />
-          :
-          <t:choice t:name="time-minutes" t:choices="tut-minutes" />
+  <div class="tutorial-form">
+    <t:form t:action="$tutorials/new-tutorial">
+      <p>Subject: <t:field t:name="subject" t:size="20" /></p>
+      <p>Location: <t:field t:name="location" t:size="20" /></p>
+      <p>Cost: $<t:field t:name="cost" t:size="3" /></p>
+      <p>One-off? <t:checkbox t:name="one-off" /></p>
+      <p>Day: <t:choice t:name="day" t:choices="weekdays" /></p>
+      <p>
+        Time:
+        <t:choice t:name="time-hours" t:choices="tut-hours" />
+        :
+        <t:choice t:name="time-minutes" t:choices="tut-minutes" />
+      </p>
+      <p>Length of tutorial: <t:field t:name="length" t:size="3" /> hours</p>
+      <p>
+        Duration (if not a one-off, defaults to current semester):
+        <p class="nested">
+          Starts:
+          <t:choice t:name="starts-month" t:choices="months" />,
+          <t:choice t:name="starts-day" t:choices="days" />
         </p>
-        <p>Length of tutorial: <t:field t:name="length" t:size="3" /> hours</p>
-        <p>
-          Duration (if not a one-off, defaults to current semester):
-          <p class="nested">
-            Starts:
-            <t:choice t:name="starts-month" t:choices="months" />,
-            <t:choice t:name="starts-day" t:choices="days" />
-          </p>
-          <p class="nested">
-            Ends:
-            <t:choice t:name="ends-month" t:choices="months" />,
-            <t:choice t:name="ends-day" t:choices="days" />
-          </p>
+        <p class="nested">
+          Ends:
+          <t:choice t:name="ends-month" t:choices="months" />,
+          <t:choice t:name="ends-day" t:choices="days" />
         </p>
-        <input type="SUBMIT" value="Done" />
-      </t:form>
-    </div>
+      </p>
+      <input type="SUBMIT" value="Done" />
+    </t:form>
+  </div>
 
-    <t:validation-messages />
+  <t:validation-messages />
 </t:chloe>
