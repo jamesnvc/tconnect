@@ -41,6 +41,7 @@ a:hover { color: #f00;
 .floatLeft { float: left; }
 .title { color: darkblue; }
 .error { color: red; }
+.username { color: purple; }
 /* Wraper over the content */
 div#container{ color: #fff;
                margin-left: auto;

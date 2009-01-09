@@ -36,7 +36,9 @@
                 <ul>
                   
                 <t:if t:code="furnace.auth:logged-in?">
-                  
+                   <li>
+                     You are currently logged in as <span class="username"><t:label t:name="username" /></span>
+                   </li>
                   <t:if t:code="furnace.auth.features.edit-profile:allow-edit-profile?">
                     <li>
                       <t:a t:href="$realm/edit-profile" t:aside="begin">Edit Profile</t:a>

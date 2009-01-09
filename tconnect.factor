@@ -38,7 +38,6 @@ CHLOE: unless dup if>quot [ swap unless ] append process-children ;
     <boilerplate>
         [ username "username" set-value ] >>init
         { tconnect-website "main" } >>template ;
-    
 
 : <login-config> ( responder -- responder' )
     "TConnect website" <login-realm>
