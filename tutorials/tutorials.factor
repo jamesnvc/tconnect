@@ -137,7 +137,7 @@ tutorial "TUTORIAL" {
                 "starts" get-date >>starts
                 "ends" get-date >>ends
                 get-time >>time
-            [ insert-tuple ] [ entity-url <redirect> ] bi
+            [ tconnect-log ] [ insert-tuple ] [ entity-url <redirect> ] tri
         ] >>submit
     { tutorials "new-tutorial" } >>template
     <protected>
