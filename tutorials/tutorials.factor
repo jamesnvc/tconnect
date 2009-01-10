@@ -94,9 +94,16 @@ tutorial "TUTORIAL" {
 : validate-tutorial (  --  )
     {
         { "subject" [ v-required ] }
-        { "location" [ v-required ] }
+        { "location" [ v-one-line ] }
         { "length" [ v-integer ] }
         {  "cost" [ v-integer ] }
+        { "one-off" [ v-required ] }
+        { "starts-month" [ v-required ] }
+        { "starts-day" [ v-required ] }
+        { "ends-month" [ v-required ] }
+        { "ends-day" [ v-required ] }
+        { "time-hours" [ v-required ] }
+        { "time-minutes" [ v-required ] }
     } validate-params ;
 
 : set-time-choices (  --  )
@@ -107,7 +114,7 @@ tutorial "TUTORIAL" {
     31 [1,b] [ number>string ] map "days" set-value ;
 
 : get-time (  -- timestamp )
-    "time-hours" "time-minutes" [ value ] bi@ ":" glue ":00" append [ tconnect-log ] [ hms>timestamp ] bi ;
+    "time-hours" "time-minutes" [ value ] bi@ ":" glue ":00" append hms>timestamp ;
 
 : month-ordinal ( name-string -- int-string' )
     month-names index 1+ "%02d" sprintf ;
@@ -126,14 +133,11 @@ tutorial "TUTORIAL" {
         [
             f <tutorial>
                 dup { "tutor" "subject" "location" "cost" "length" "day" } to-object
-                "one-off" value not >>repeats
+                "one-off" value "on" = not >>repeats
                 "starts" get-date >>starts
                 "ends" get-date >>ends
-            dup tconnect-log
-            "time-hours" dup value append tconnect-log
-            "time-minutes" dup value append tconnect-log
                 get-time >>time
-            [ tconnect-log ] [ insert-tuple ] [ entity-url <redirect> ] tri
+            [ insert-tuple ] [ entity-url <redirect> ] bi
         ] >>submit
     { tutorials "new-tutorial" } >>template
     <protected>
