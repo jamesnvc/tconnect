@@ -120,8 +120,8 @@ tutorial "TUTORIAL" {
     month-names index 1+ "%02d" sprintf ;
 
 : get-date ( field -- timestamp )
-    now year>> swap dup [ "-month" append value month-ordinal ] dip
-    "-day" append value [ "-" glue ] bi@ ;
+    now year>> number>string swap dup [ "-month" append value month-ordinal ] dip
+    "-day" append value [ "-" glue ] bi@ ymd>timestamp ;
     
 : <new-tutorial-action> (  -- action )
     <page-action>
