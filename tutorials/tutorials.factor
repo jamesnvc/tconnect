@@ -1,12 +1,13 @@
 ! Copyright (C) 2008 James Cash
 ! See http://factorcode.org/license.txt for BSD license.
 USING: kernel sequences math math.parser math.ranges
-http.server.dispatchers
+http.server.dispatchers io
+html.templates.chloe.compiler html.templates.chloe.syntax
 furnace.syndication furnace.redirection
 furnace.auth furnace.actions
 furnace.boilerplate
 db db.types db.tuples
-accessors present urls 
+accessors present urls fry
 html.forms formatting logging
 validators calendar calendar.format ;
 IN: tconnect.tutorials
@@ -65,7 +66,11 @@ tutorial "TUTORIAL" {
         "id" >>rest
         [
             validate-integer-id
-            "id" value tutorial-by-id from-object
+            "id" value tutorial-by-id dup from-object
+            [ time>> timestamp>hms "time" set-value ] keep
+            [ starts>> timestamp>string "starts" set-value ] keep
+            [ ends>> timestamp>string "ends" set-value ] keep
+            
         ] >>init
     
         { tutorials "view-tutorial" } >>template ;
@@ -96,8 +101,9 @@ tutorial "TUTORIAL" {
         { "subject" [ v-required ] }
         { "location" [ v-one-line ] }
         { "length" [ v-integer ] }
-        {  "cost" [ v-integer ] }
-        { "one-off" [ v-required ] }
+        { "cost" [ v-integer ] }
+        { "day" [ v-required ] }
+        { "one-off" [ v-checkbox ] }
         { "starts-month" [ v-required ] }
         { "starts-day" [ v-required ] }
         { "ends-month" [ v-required ] }
@@ -133,7 +139,7 @@ tutorial "TUTORIAL" {
         [
             f <tutorial>
                 dup { "tutor" "subject" "location" "cost" "length" "day" } to-object
-                "one-off" value "on" = not >>repeats
+                "one-off" value not >>repeats
                 "starts" get-date >>starts
                 "ends" get-date >>ends
                 get-time >>time
