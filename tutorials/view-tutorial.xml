@@ -16,8 +16,10 @@
     <t:a t:href="$tutorials/by" t:rest="tutor">
       <t:label t:name="tutor" />
     </t:a>
-    on
-    <t:label t:name="time" />
+    at <t:label t:name="time" />
+    on <t:label t:name="day" />
+    from <t:label t:name="starts" />
+    until <t:label t:name="ends" />
     in
     <t:label t:name="location" />
   </p>

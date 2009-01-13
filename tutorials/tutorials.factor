@@ -41,6 +41,11 @@ M: tutorial entity-url
 
 M: tutorial feed-entry-url entity-url ;
 
+CHLOE: time
+    "name" required-attr '[ _ value timestamp>hms write ] [code] ;
+CHLOE: date
+    "name" required-attr '[ _ value timestamp>ymd write ] [code] ;
+
 tutorial "TUTORIAL" {
     { "id" "ID" INTEGER +db-assigned-id+ }
     { "tutor" "TUTOR" { VARCHAR 256 } +not-null+ }
@@ -85,7 +90,6 @@ tutorial "TUTORIAL" {
     [
         { tutorials "list-tutorials-common" } >>template
         <boilerplate>
-            ! [ "time" value timestamp>hms "time" set-value ] >>init
     ] dip >>template ;
 
 : <list-tutorials-action> (  -- action )

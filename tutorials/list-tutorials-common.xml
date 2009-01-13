@@ -8,6 +8,8 @@
       <th>Subject</th>
       <th>Tutor</th>
       <th>Time</th>
+      <th>Starts</th>
+      <th>Ends</th>
       <th>Location</th>
       <th>Cost</th>
     </tr>
@@ -29,7 +31,15 @@
         </td>
         
         <td>
-          <t:inspector t:name="time" />
+          <t:time t:name="time" />
+        </td>
+        
+        <td>
+          <t:date t:name="starts" />
+        </td>
+        
+        <td>
+          <t:date t:name="ends" />
         </td>
         
         <td>
