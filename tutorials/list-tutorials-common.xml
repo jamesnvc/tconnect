@@ -21,7 +21,7 @@
       <tr>
         
         <td>
-          <t:label t:name="subject" />
+          <t:a t:href="$tutorials/tutorial/" t:rest="id"><t:label t:name="subject" /></t:a>
         </td>
         
         <td>
