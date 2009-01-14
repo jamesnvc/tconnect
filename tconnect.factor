@@ -4,7 +4,7 @@ USING: kernel accessors sequences assocs
 io.files io.sockets io.sockets.secure io.servers.connection io.pathnames
 namespaces db db.tuples db.sqlite smtp urls
 logging logging.server logging.insomniac
-html.forms html.templates.chloe html.templates.chloe.compiler html.templates.chloe.syntax
+html.forms html.templates.chloe 
 http.server http.server.dispatchers http.server.redirection http.server.static http.server.cgi
 furnace.alloy
 furnace.auth
@@ -17,7 +17,7 @@ furnace.auth.features.deactivate-user
 furnace.boilerplate
 furnace.redirection
 webapps.user-admin
-tconnect.tutorials ;
+tconnect.tutorials tconnect.tags ;
 IN: tconnect
 
 : tconnect-root (  -- object )
@@ -32,8 +32,6 @@ IN: tconnect
     ] with-db ;
 
 TUPLE: tconnect-website < dispatcher ;
-
-CHLOE: unless dup if>quot [ swap unless ] append process-children ;
 
 : <tconnect-boilerplate> ( responder -- responder' )
     <boilerplate>

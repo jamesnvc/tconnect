@@ -2,14 +2,13 @@
 ! See http://factorcode.org/license.txt for BSD license.
 USING: kernel sequences math math.parser math.ranges
 http.server.dispatchers io
-html.templates.chloe.compiler html.templates.chloe.syntax
 furnace.syndication furnace.redirection
 furnace.auth furnace.actions
 furnace.boilerplate
 db db.types db.tuples
 accessors present urls fry
 html.forms formatting logging
-validators calendar calendar.format ;
+validators calendar calendar.format tconnect.tags ;
 IN: tconnect.tutorials
 
 TUPLE: tutorials < dispatcher ;
@@ -40,11 +39,6 @@ M: tutorial entity-url
     id>> view-tutorial-url ;
 
 M: tutorial feed-entry-url entity-url ;
-
-CHLOE: time
-    "name" required-attr '[ _ value timestamp>hms write ] [code] ;
-CHLOE: date
-    "name" required-attr '[ _ value timestamp>ymd write ] [code] ;
 
 tutorial "TUTORIAL" {
     { "id" "ID" INTEGER +db-assigned-id+ }
